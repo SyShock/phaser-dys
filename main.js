@@ -12,7 +12,6 @@ function displayOptions(menuId){
 	var opacity = 1;
 
 	if(outDoc){
-		// displayError("first");	
 		var fadeOutInterval = setInterval(function(){
 			outDoc.style.opacity = opacity;
 			outDoc.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
@@ -20,7 +19,6 @@ function displayOptions(menuId){
 			if (opacity <= 0){
 				outDoc.style.display = "none";
 				if(inDoc){
-					// displayError("secnod");
 					fadeIn(inDoc);
 				}
 				clearInterval(fadeOutInterval);
@@ -30,10 +28,12 @@ function displayOptions(menuId){
 	}
 
 
-	else{fadeIn(inDoc);}
+	else{
+		fadeIn(inDoc);
+	}
 
 
-		function fadeIn(doc){
+	function fadeIn(doc){
 		opacity = 0;
 		doc.style.display = "block";
 		doc.style.opacity = 0;
@@ -111,6 +111,21 @@ function download(filename, text) {
 	else {
 		pom.click();
 	}
+}
+
+
+function addToMenu(menuId, msg ,onPress, id){
+	var menu = document.getElementById(menuId);
+	// displayError(menuId);
+	// displayError(menu);
+	var newSpawn = document.createElement("button"); 
+	var text = document.createTextNode(msg);
+
+	newSpawn.appendChild(text);  
+	newSpawn.setAttribute("onClick", onPress);
+	newSpawn.setAttribute("id", id);
+	menu.appendChild(newSpawn);
+
 }
 
 
