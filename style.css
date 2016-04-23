@@ -1,0 +1,324 @@
+body{
+	/*background-image: url("./img/testImg2.jpg") ;*/
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	/*background-position: center;*/
+}
+
+
+/*
+
+Animation
+from http://tobiasahlin.com/spinkit/
+*/
+.spinner {
+	margin            : 100px auto  ;
+	width             : 140px       ;
+	height            : 60px        ;
+	text-align        : center      ;
+	font-size         : 20px        ;
+}
+
+.spinner > div {
+	background-color  : #333                                      ;
+	height            : 100%                                      ;
+	width             : 6px                                       ;
+	display           : inline-block                              ;
+
+	-webkit-animation : sk-stretchdelay 1.2s infinite ease-in-out ;
+	animation         : sk-stretchdelay 1.2s infinite ease-in-out ;
+}
+
+.spinner .rect2 {
+	-webkit-animation-delay : -1.1s    ;
+	animation-delay         : -1.1s    ;
+}
+
+.spinner .rect3 {
+	-webkit-animation-delay : -1.0Anos ;
+	animation-delay         : -1.0s    ;
+}
+
+.spinner .rect4 {
+	-webkit-animation-delay : -0.9s    ;
+	animation-delay         : -0.9s    ;
+}
+
+.spinner .rect5 {
+	-webkit-animation-delay : -0.8s    ;
+	animation-delay         : -0.8s    ;
+}
+.spinner .rect6 {
+	-webkit-animation-delay : -0.7s    ;
+	animation-delay         : -0.7s    ;
+}
+.spinner .rect7 {
+	-webkit-animation-delay : -0.6s    ;
+	animation-delay         : -0.6s    ;
+}
+.spinner .rect8 {
+	-webkit-animation-delay : -0.5s    ;
+	animation-delay         : -0.5s    ;
+}
+.spinner .rect9 {
+	-webkit-animation-delay : -0.4s    ;
+	animation-delay         : -0.4s    ;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+	0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+	20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {0%, 40%, 100% { 
+	transform         : scaleY(0.4) ;
+	-webkit-transform : scaleY(0.4) ;
+	}  20% { 
+		transform         : scaleY(1.0) ;
+		-webkit-transform : scaleY(1.0) ;
+	}
+}
+
+
+/*Canvas
+*	problem with elements not showing inside
+*/
+#myCanvas{
+	display: block;
+	padding-left      : 0           ;
+	padding-right     : 0           ;
+	margin-left       : auto        ;
+	margin-right      : auto        ;
+	width             : 100%         ;
+	height            : 100%         ;
+	border            : solid      ;
+	border-width      : 1px         ;
+	border-color      : #2020     ;
+}
+
+
+
+
+
+/*
+*	Splash Screen/Loading Screen
+*
+*
+*/
+
+
+@keyframes fadeIn {
+	0%   {opacity : 0 ; }
+	50%	 {opacity: 0.5	}
+	100% {opacity : 0.7 ; }
+}
+
+@keyframes fadeOut {
+	0%   {opacity : 1 ; }
+	50%	 {opacity: 0.5	}
+	100% {opacity : 0 ; }
+}
+
+#notify {
+	top              : 1%;
+	left             : 1%;
+	position         : fixed              ;
+	padding-left     : 0                  ;
+	padding-right    : 0                  ;
+	margin-left      : auto               ;
+	margin-right     : auto               ;
+	background-color : rgba(50,50,50,0.7) ;
+	border-width     : 1px                ;
+	border-style     : solid              ;
+	border-color     : #F0F0F0            ;
+	border-radius    : 0px                ;
+	font-family      : "Courier"          ;
+	color            : white              ;
+	width            : auto              ;
+	height           : auto              ;
+	opacity          : 0.7;
+} 
+#notify:hover {
+	opacity: 1;
+}
+
+
+#loadingText{
+	font-family: "Courier";
+	color: white;
+}
+
+
+
+/* Buttons*/
+.styled-select{
+
+	width: inherit;
+	height: inherit;
+	overflow: hidden;
+	background: url(./img/arrow.png) no-repeat right transparent;
+	/*border: 1px solid #ccc;*/
+
+
+
+	border-radius: 10px;
+	padding-left  : 0           ;
+	padding-right : 0           ;
+	margin-left   : auto        ;
+	margin-right  : auto        ;
+	/*padding:  	  : 20px        ;*/
+	border        : none        ;
+	width         : inherit     ;
+	height: inherit;		
+
+}
+.styled-select select{
+	font-family: Prime;
+	background: transparent;
+	width: 313px;
+	height: inherit;
+	font-size: 20px;
+	border: none;
+	border-radius: 0;
+	-webkit-appearance: none;
+
+
+	padding: 20px        ;
+	color         : #FFFFFF     ;
+	text-align    : center      ;
+	font-size     : 24px        ;
+	transition    : all 0.5s    ;
+	cursor        : pointer     ;
+
+
+}
+
+select:hover {
+	background-color: rgba(100,100,0,0.7);
+	color: white;
+}
+
+button{
+	font-family: Prime;
+	border-radius: 10px;
+	padding-left  : 0           ;
+	padding-right : 0           ;
+	display       : block       ;
+	margin-left   : auto        ;
+	margin-right  : auto        ;
+	background    : transparent ;
+	border        : none        ;
+	color         : #FFFFFF     ;
+	text-align    : center      ;
+	font-size     : 24px        ;
+	padding       : 20px        ;
+	width         : inherit     ;
+	transition    : all 0.5s    ;
+	cursor        : pointer     ;
+}
+
+button:hover {
+	background-color: rgba(100,100,0,0.7);
+	color: white;
+}
+
+
+@font-face{
+	font-family: Rex;
+	src: url(./fonts/Rex\ Bold\ Inline.otf);	
+}
+
+@font-face{
+	font-family: Prime;
+	src: url(./fonts/Prime\ Regular.otf);
+}
+
+
+
+
+.title{
+	background-color: rgba(20,20,20,0.8);
+	text-indent: 20px;
+	padding-top: 15px;
+	text-align: left;
+	font-family: Rex;
+	color: green;
+	font-style: bold;
+	font-size: 50;
+	border-bottom: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: white;
+}
+
+
+
+
+
+/*  http://css3pie.com/demos/gradient-patterns/ */
+
+.menu{
+
+	background-color: rgba(0,50,0,0.3);
+
+	background-size: 13px 13px, 29px 29px, 37px 37px, 3px 53px;
+	background-image: -webkit-linear-gradient(0, rgba(255,255,255,.07) 25%, transparent 25%),
+	-webkit-linear-gradient(0, rgba(255,255,255,.13) 25%, transparent 25%),
+	-webkit-linear-gradient(0, transparent 25%, rgba(255,255,255,.17) 25%),
+	-webkit-linear-gradient(0, transparent 25%, rgba(255,255,255,.19) 25%);
+
+
+	background-image: -moz-linear-gradient(0, rgba(255,255,255,.07) 25%, transparent 25%),
+	-moz-linear-gradient(0, rgba(255,255,255,.13) 25%, transparent 25%),
+	-moz-linear-gradient(0, transparent 25%, rgba(255,255,255,.17) 25%),
+	-moz-linear-gradient(0, transparent 25%, rgba(255,255,255,.19) 25%);
+
+
+	background-image: linear-gradient(180deg, rgba(255,255,255,.07) 25%, transparent 25%),
+	linear-gradient(180deg, rgba(255,255,255,.13) 25%, transparent 25%),
+	linear-gradient(180deg, transparent 25%, rgba(255,255,255,.17) 25%),
+	linear-gradient(180deg, transparent 25%, rgba(255,255,255,.19) 25%);
+
+
+	-pie-background: linear-gradient(180deg, rgba(255,255,255,.07) 25%, transparent 25%) 0 0 / 13px,
+	linear-gradient(180deg, rgba(255,255,255,.13) 25%, transparent 25%) 0 0 / 29px,
+	linear-gradient(180deg, transparent 25%, rgba(255,255,255,.17) 25%) 0 0 / 37px,
+	linear-gradient(180deg, transparent 25%, rgba(255,255,255,.19) 25%) 0 0 / 53px,
+	#000000;
+	behavior: url(/pie/PIE.htc);
+
+
+
+	position : fixed;
+	top      : 20% ;
+	left     : 70% ;
+
+	border-width  : 1px     ;
+	border-style  : solid   ;
+	border-color  : #202020 ;
+	padding-left  : 0       ;
+	padding-right : 0       ;
+	margin-left   : auto    ;
+	margin-right  : auto    ;
+	margin-top	  : auto;
+	margin-bottom : auto;
+	display       : block   ;
+	border-radius : 10px    ;
+	width         : 300px   ;
+}
+
+
+
+#menuHelp {
+	/*font-style: bold;*/
+	font-family: "Courier";
+	color: white;
+	display:none; 
+	background-color: rgba(0,0,0,0.7);
+    position: fixed;
+    width: 40%;
+    height: auto;
+    margin: 100px;
+    padding: 0;
+    top: 0;
+    left: 0;
+}

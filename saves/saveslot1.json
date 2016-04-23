@@ -1,0 +1,12 @@
+{
+	"keys":[{
+		"up": ,
+		"down":  ,
+		"left":  ,
+		"right": ,
+		"fire":  ,
+		"mainmenu": ,
+		}],
+	"progress":1,
+	"deaths":0
+}

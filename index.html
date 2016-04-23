@@ -1,0 +1,161 @@
+
+<html>
+<head>
+	<title>Hi there!</title>
+
+	<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="./lib/dynamicLoad.js"></script>	
+	<script type="text/javascript" src="./lib/controls.js"></script>
+	<script type="text/javascript" src="./lib/sound.js"></script>		
+	<script type="text/javascript" src="./lib/phaser.js"></script>		
+	<script type="text/javascript" src="main.js" id="main.js"></script>	
+
+	<script type="text/javascript">
+		window.onload = function(e) {
+			
+			document.getElementById('loadingText').style.visibility = "hidden";
+			var tmp =  document.getElementsByClassName("spinner");
+			for (i = 0; i < tmp.length; i++) {
+				tmp[i].style.visibility = "hidden" ;
+				tmp[i].style.display    = "none"   ;
+			}
+			tmp = 0;
+			// loadCanvas();
+		};
+
+	</script>
+
+</head>
+
+
+<body>
+	<div id="loadingText">Loading, please wait...</div>
+
+
+
+
+	<!-- <canvas id="myCanvas"></canvas> -->
+	<div class="spinner">
+		<div class="rect1"></div>
+		<div class="rect2"></div>
+		<div class="rect3"></div>
+		<div class="rect4"></div>
+		<div class="rect5"></div>
+		<div class="rect6"></div>
+		<div class="rect7"></div>
+		<div class="rect8"></div>
+		<div class="rect9"></div>
+	</div>
+
+
+	<div id="menu" class="menu">
+		<div class="title">Dys</div>
+		<button id="playButton"      onclick= "dynamicLoad ( './lib/ingame.js','js','notify' ) ;
+		" > Play</button>
+		<button id="multiplayButton" onclick= "displayOptions('menuMap')" > Level Editor</button>
+		<button id="optionsButton"   onclick= "displayOptions('menuOptions');" > Options</button>
+		<button id="helpButton"      onclick= "showHelp();" > Help</button>
+		<button id="aboutButton"     onclick= "displayError('Made by SyShock', 1);" > About</button>
+	</div>
+
+
+
+	<div id="menuOptions" class="menu" style="display: none;">
+		<div class="title">//Options</div>
+		<button id="" onclick= "displayOptions('menuKeybinds');" > Set Keybinds</button>
+		<button id="" onclick= "displayOptions('menuKeybinds');" > Set Mousebinds</button>
+		<button id="" onclick= "displayOptions('menuDifficulty');" > Set Difficulty</button>
+		<button id="" onclick= "displayOptions('menuLoad');" > Load Savefile</button>
+		<button id="" onclick= "displayOptions('menuSave');" > Savefile</button>
+		<br></br>
+		<button id="" onclick= "displayOptions('menu');" > Back</button> 
+	</div>
+
+
+
+	<div id="menuKeybinds" class="menu" style="display: none;">
+		<div class="title">//Keybinds</div>
+		<button id="" onclick= "setKey('up')" > Up</button>
+		<button id="" onclick= "setKey('down')" > Down</button> 
+		<button id="" onclick= "setKey('left')" > Left</button> 
+		<button id="" onclick= "setKey('right')" > Right</button>
+		<button id="" onclick= "" > Use</button>
+		<button id="" onclick= "" > Fire</button>
+		<br></br>
+
+		<button id="" onclick= "displayOptions('menuOptions');" > Save & Back</button>
+		<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
+
+	</div>
+
+
+
+	<div id="menuMousebinds" class="menu" style="display: none;">
+		<div class="title">Keybinds</div>
+		<button id="" onclick= "" > Up</button>
+		<button id="" onclick= "" > Down</button> 
+		<button id="" onclick= "" > Left</button> 
+		<button id="" onclick= "" > Right</button>
+		<button id="" onclick= "" > Use</button>
+		<button id="" onclick= "" > Fire</button>
+		<br></br>
+
+		<button id="" onclick= "displayOptions('menuOptions');" > Save & Back</button>
+		<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
+
+	</div>
+
+
+
+	<div id="menuDifficulty" class="menu" style="display: none;">
+		<div class="title">//Difficulty</div>
+		<div class="styled-select">
+			<select name="Difficulty">
+				<option value="normal">Normal</option>
+				<option value="hard">Hard</option>
+				<option value="realistic">Realistic</option>
+				<option value="dystopia">Dys-topia</option>
+			</select>
+		</div>
+		<br></br>
+		<button id="" onclick= "" > Save & Back</button> 
+		<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
+	</div>
+
+
+	<div id="menuMap" class="menu" style="display: none;">
+		<div class="title">//Level Editor</div>
+		<button id="" onclick= "" > Play Map</button>
+		<button id="" onclick= "dynamicLoad ( './lib/levelEditor.js','js','notify' );" > Edit Map</button> 
+		<button id="" onclick= "" > Load Map</button>
+		<br></br> 
+		<button id="" onclick= "displayOptions('menu');" > Back</button>
+	</div>
+
+
+
+	<div id="menuHelp" style="display:none;">
+		>>Help screen.<br>
+		Defualt keybind are:<br>
+		"W" - Up <br>
+		"A" - Left <br>
+		"S" - Down <br>
+		"D" - Right <br>
+		"E" - Use <br>
+		"MouseButton1" - Fire <br>
+		"MouseButton2" - Secondary Fire <br>
+
+		Music Controls: <br>
+		"+"- increase volume <br>
+		"-" decrease volume <br>
+
+	</div>
+
+</body>
+
+
+
+</html
