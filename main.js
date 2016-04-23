@@ -1,5 +1,4 @@
 var currentMenu = "menu";
-// var currentMenu = "#menu";
 function displayOptions(menuId){
 
 
@@ -74,7 +73,7 @@ function showHelp() {
 
 var settings = {
 	keys: {	up: 87,down: 83,left: 65, right: 68,} ,
-	volume: 1,
+	volume: 20,
 	progress: 0,
 };
 
@@ -128,4 +127,73 @@ function addToMenu(menuId, msg ,onPress, id){
 
 }
 
+function removeFromMenu(menuId, id){
+	var menu = document.getElementById(menuId);
+	var target = document.getElementById(id);
+	menu.removeChild(target);
+	
+}
 
+
+var optionsAdded = false;
+
+function gameMenu(){
+	if(!optionsAdded){
+		addToMenu("menu","Reset", "game.state.start('default',true,true)", "resetButton");
+		addToMenu("menu","Quit", "gameQuit();", "quitButton");
+		optionsAdded = true;
+	}
+}
+
+function gameQuit(){
+	if(optionsAdded){
+		dynamicUnload('./lib/ingame.js','js');
+		game.destroy();
+		removeFromMenu("menu", "resetButton");
+		removeFromMenu("menu", "quitButton");
+		optionsAdded = false;
+	}
+}
+
+function mapMenu(){
+
+}
+
+
+
+
+
+
+
+function setKey(action){
+
+	displayError("Key set for " + action,1);
+	window.addEventListener('keydown',set,false);
+
+
+	function set(e) {
+		displayError("Keycode is: " + e.keyCode,1);
+		keys[action] = e.keyCode;
+		window.removeEventListener('keydown',set,false);
+	}	
+}
+
+
+function loadSave(){
+	JSON.parce();
+}
+
+function save() {
+	JSON.stringify();
+}
+
+function setVolumeUp() {
+	settings.volume += 10;
+	displayError(settings.volume );
+	soundCloud.setVolume(settings.volume);
+}
+function setVolumeDown() {
+	settings.volume -= 10;
+	displayError(settings.volume );
+	soundCloud.setVolume(settings.volume);
+}
