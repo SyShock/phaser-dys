@@ -80,26 +80,6 @@ from http://tobiasahlin.com/spinkit/
 }
 
 
-/*Canvas
-*	problem with elements not showing inside
-*/
-#myCanvas{
-	display: block;
-	padding-left      : 0           ;
-	padding-right     : 0           ;
-	margin-left       : auto        ;
-	margin-right      : auto        ;
-	width             : 100%         ;
-	height            : 100%         ;
-	border            : solid      ;
-	border-width      : 1px         ;
-	border-color      : #2020     ;
-}
-
-
-
-
-
 /*
 *	Splash Screen/Loading Screen
 *
@@ -201,8 +181,6 @@ select:hover {
 button{
 	font-family: Prime;
 	border-radius: 10px;
-	padding-left  : 0           ;
-	padding-right : 0           ;
 	display       : block       ;
 	margin-left   : auto        ;
 	margin-right  : auto        ;
@@ -223,14 +201,20 @@ button:hover {
 }
 
 
+
+.upload {
+	display:none;
+}
+
+
 @font-face{
 	font-family: Rex;
-	src: url(./fonts/Rex\ Bold\ Inline.otf);	
+	src: url(./assets/fonts/Rex\ Bold\ Inline.otf);	
 }
 
 @font-face{
 	font-family: Prime;
-	src: url(./fonts/Prime\ Regular.otf);
+	src: url(./assets/fonts/Prime\ Regular.otf);
 }
 
 
@@ -244,7 +228,7 @@ button:hover {
 	font-family: Rex;
 	color: green;
 	font-style: bold;
-	font-size: 50;
+	font-size: 48;
 	border-bottom: solid;
 	border-bottom-width: 1px;
 	border-bottom-color: white;

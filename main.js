@@ -1,29 +1,13 @@
 var currentMenu = "menu";
 function displayOptions(menuId){
-
-
-	// menuId = "#" + menuId;
 	var duration = 250;
-	// alert(document.getElementById(currentMenu));
 	var outDoc = document.getElementById(currentMenu);
 	var inDoc = document.getElementById(menuId);
 
-	var opacity = 1;
+	var opacity;
 
 	if(outDoc){
-		var fadeOutInterval = setInterval(function(){
-			outDoc.style.opacity = opacity;
-			outDoc.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-			opacity -= 0.05;
-			if (opacity <= 0){
-				outDoc.style.display = "none";
-				if(inDoc){
-					fadeIn(inDoc);
-				}
-				clearInterval(fadeOutInterval);
-
-			}
-		},10);
+		fadeOut(outDoc);
 	}
 
 
@@ -31,86 +15,67 @@ function displayOptions(menuId){
 		fadeIn(inDoc);
 	}
 
+	currentMenu = menuId;
+
+
+
+	function fadeOut(doc)
+	{
+		opacity = 1;
+		var fadeOutInterval = setInterval(function(){
+			outDoc.style.opacity = opacity;
+			outDoc.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
+					opacity -= 0.2;
+					if (opacity <= 0){
+						outDoc.style.display = "none";
+						if(inDoc){
+							fadeIn(inDoc);
+						}
+						clearInterval(fadeOutInterval);
+
+					}
+			},10);
+	}
+
 
 	function fadeIn(doc){
-		opacity = 0;
-		doc.style.display = "block";
-		doc.style.opacity = 0;
-		var fadeInInterval = setInterval(function(){
+			opacity = 0;
+			doc.style.display = "block";
+			doc.style.opacity = 0;
+			var fadeInInterval = setInterval(function(){
 			doc.style.opacity = opacity;
 			doc.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-			opacity += 0.05;
+			opacity += 0.2;
 			if (opacity >= 1){
 				clearInterval(fadeInInterval);
 			}
-		},10);
-	}
-	currentMenu = menuId;
-}
+			},10);
+			}
+			}
+
+
+
 
 
 function showHelp() {
-	displayOptions("menuHelp");
+						displayOptions("menuHelp");
 
-	var canvas = document.getElementById("menuHelp");
-	canvas.onclick = function(){
-		displayOptions("menu");
-		canvas.onclick = null;
-	};
+						var canvas = document.getElementById("menuHelp");
+						canvas.onclick = function(){
+							displayOptions("menu");
+							canvas.onclick = null;
+						};
 }
 
-
-
-/*
-*
-*	settings from json
-*
-*
-* 
-*/
-
-//keys = keysTemp;
 
 var settings = {
-	keys: {	up: 87,down: 83,left: 65, right: 68,} ,
-	volume: 20,
-	progress: 0,
+	"keys" : {up: 87,down: 83,left: 65, right: 68,},
+	"volume": 20,
+	"levelProgress": 0,
+	"died": 0,
+	difficulty: "normal",
+
 };
-
-
-var settingsTemp = settings;
-
-
-
-/*
-*	Controls
-*
-*
-*
-*/
-
-
-
-
-/*
-* File save/load
-*
-*/
-
-function download(filename, text) {
-	var pom = document.createElement('a');
-	pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-	pom.setAttribute('download', filename);
-
-	if (document.createEvent) {
-		var event = document.createEvent('MouseEvents');
-		event.initEvent('click', true, true);
-		pom.dispatchEvent(event);
-	}
-	else {
-		pom.click();
-	}
-}
 
 
 function addToMenu(menuId, msg ,onPress, id){
@@ -131,15 +96,16 @@ function removeFromMenu(menuId, id){
 	var menu = document.getElementById(menuId);
 	var target = document.getElementById(id);
 	menu.removeChild(target);
-	
+
 }
 
 
-var optionsAdded = false;
 
+
+var optionsAdded = false;
 function gameMenu(){
 	if(!optionsAdded){
-		addToMenu("menu","Reset", "game.state.start('default',true,true)", "resetButton");
+		addToMenu("menu","Reset", "working = false; game.state.restart(true,true);", "resetButton");
 		addToMenu("menu","Quit", "gameQuit();", "quitButton");
 		optionsAdded = true;
 	}
@@ -147,8 +113,7 @@ function gameMenu(){
 
 function gameQuit(){
 	if(optionsAdded){
-		dynamicUnload('./lib/ingame.js','js');
-		game.destroy();
+		game.state.start('menu');
 		removeFromMenu("menu", "resetButton");
 		removeFromMenu("menu", "quitButton");
 		optionsAdded = false;
@@ -157,13 +122,24 @@ function gameQuit(){
 
 function mapMenu(){
 
+	if(!optionsAdded){
+		addToMenu("menu","Save & Download Map", "saveMap();", "saveButton");
+		addToMenu("menu","Quit", "mapQuit();", "quitButton");
+		addToMenu("menu","Resize Map", "resizeMap()", "resizeButton");
+		optionsAdded = true;
+	}
 }
 
+function mapQuit() {
+	if(optionsAdded){
+		game.state.start('menu');
+		removeFromMenu("menu", "saveButton");
+		removeFromMenu("menu", "quitButton");
+		removeFromMenu("menu", "sizeButton");
+		optionsAdded = false;
 
-
-
-
-
+	}
+}
 
 function setKey(action){
 
@@ -173,27 +149,159 @@ function setKey(action){
 
 	function set(e) {
 		displayError("Keycode is: " + e.keyCode,1);
-		keys[action] = e.keyCode;
+		settings.keys[action] = e.keyCode;
 		window.removeEventListener('keydown',set,false);
 	}	
 }
 
+var reader;
+var maps;
+function loadMap(evt){
+	reader = new FileReader();
+	console.log(evt);
+	reader.readAsText(evt.target.files[0]);
+	reader.onerror = function(e)
+	{
+		console.log(evt.target.error.code);
+	};
+	reader.onloadstart = function(e)
+	{
+	};
+	reader.onload = function(e)
+	{
+		var data = reader.result;
+		console.log(data);
+		maps = JSON.parse(data);
+	};
 
-function loadSave(){
-	JSON.parce();
+}
+
+function loadSave(evt){
+	reader = new FileReader();
+	console.log(evt);
+	reader.readAsText(evt.target.files[0]);
+	reader.onerror = function(e)
+	{
+		console.log(evt.target.error.code);
+	};
+	reader.onloadstart = function(e)
+	{
+	};
+	reader.onload = function(e)
+	{
+		var data = reader.result;
+		console.log(data);
+		settings = JSON.parse(data);
+	};	
 }
 
 function save() {
-	JSON.stringify();
+	var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
+	var a = document.createElement('a');
+	a.href = 'data:' + data;
+	a.download = 'savefile.json';
+	a.innerHTML = 'download JSON';
+	a.click();
 }
 
-function setVolumeUp() {
+function setVolumeUp() 
+{
 	settings.volume += 10;
 	displayError(settings.volume );
 	soundCloud.setVolume(settings.volume);
 }
-function setVolumeDown() {
+function setVolumeDown()
+{
 	settings.volume -= 10;
 	displayError(settings.volume );
 	soundCloud.setVolume(settings.volume);
 }
+
+function setDifficulty()
+{
+	tmp  = document.getElementById('difficulty').value;
+	console.log(tmp);
+	if(tmp === 'normal')
+		difficulty=normal;
+	if(tmp === 'hard')
+		difficulty = hard;
+	if(tmp === 'realistic')
+		difficulty = realistic;
+	if(tmp === 'dystopia')
+		difficulty = dystopian;
+
+	console.log(difficulty);
+}
+
+function play()
+{
+	dynamicLoad ( './lib/misc/difficulty.js','js','notify');
+	dynamicLoad ( './lib/ingame.js','js','notify');
+
+	try 
+	{
+		game.state.start('inGame');
+	}
+	catch(e)
+	{
+		console.log(e);
+	}
+}
+
+
+function playMap()	
+{
+	if (!maps)
+	{
+		displayError("Please select a map...");
+	}
+	else
+	{
+
+		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
+		dynamicLoad('./lib/ingame.js','js');
+
+		try 
+		{
+			game.state.start('inGame');
+		}
+		catch(e)
+		{
+			console.log(e);
+		}
+
+
+	}
+}
+
+
+function mapEditor(){
+	if (!maps)
+	{
+		displayError("Please select a map...");
+	}
+	else{
+		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
+		dynamicLoad('./lib/levelEditor.js','js');
+	}
+}
+
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'phaser-example');
+
+
+var menuState = {
+	preload: function()
+	{
+		game.load.image('background', 'assets/img/introducing-the-default-wallpapers-of-the-gnome-3-18-desktop-environment-485512-6.jpg');
+	},
+	create: function()
+	{
+		game.add.sprite(0, 0, 'background');
+	},
+};
+
+
+game.state.add("menu",menuState);
+game.state.start('menu');
+
+
