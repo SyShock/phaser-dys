@@ -1,173 +1,217 @@
 
 <html>
-<head>
-	<title>Hi there!</title>
+	<head>
+		<title>Hi there!</title>
+
+		<!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> -->
 
 
-	<!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> -->
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script type="text/javascript" src="./lib/dynamicLoad.js"></script>	
+		<script type="text/javascript" src="./lib/phaser.js"></script>		
+		<script type="text/javascript" src="main.js" id="main.js"></script>	
+		<script type="text/javascript" src="./lib/units/units.js" ></script>
+		<script type="text/javascript" src="./lib/player/player.js" ></script>
+		<script type="text/javascript" src="./lib/player/drone.js" ></script>
+		<script type="text/javascript" src="./lib/worldObjects/items.js" ></script>
+		<script type="text/javascript" src="./lib/input/input.js" ></script>
+		<script type="text/javascript" src="./lib/debug.js" ></script>
+		<script src="http://connect.soundcloud.com/sdk.js"></script>
+		<script data-main="/lib/main" src="/lib/require.min.js"></script>
 
 
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script type="text/javascript" src="./lib/dynamicLoad.js"></script>	
-	<script type="text/javascript" src="./lib/phaser.js"></script>		
-	<script type="text/javascript" src="main.js" id="main.js"></script>	
-	<script src="https://connect.soundcloud.com/sdk.js"></script>
+		<script type="text/javascript">
+var soundCloud; 
+var trackURLs = {
+	
+};
+function soundPlayer() {
 
-	<script type="text/javascript">
-		var soundCloud; 
-		window.onload = function(e) {
+	SC.initialize({
+		client_id: "d4ab52d80ed2e7790c3a243495b30093",
+	});
 
-			SC.initialize({
-		    	client_id: "d4ab52d80ed2e7790c3a243495b30093",
-			       // redirect_uri: "https://developers.soundcloud.com/callback.html"
-			});
+	SC.stream("/tracks/227142158", function (sound) {
+		sound.setVolume(settings.volume);
+		sound.play();
+		soundCloud = sound;
 
-			// Background Sounds - Rain
-			SC.stream("/tracks/227142158", function (sound) {
-				sound.setVolume(settings.volume);
-			    sound.play();
-			    soundCloud = sound;
-			   
-			});
-			
-			document.getElementById('loadingText').style.visibility = "hidden";
-			var tmp =  document.getElementsByClassName("spinner");
-			for (i = 0; i < tmp.length; i++) {
-				tmp[i].style.visibility = "hidden" ;
-				tmp[i].style.display    = "none"   ;
-			}
-			tmp = 0;
-		};
-	</script>
+	});
+}
+function simulateLoadSave(){
+	var tmp = document.getElementById('files');
+	tmp.click()
+}
+function simulateLoadMap(){
+	var tmp = document.getElementById('saveFiles');
+	tmp.click()
+}
+document.onmousedown=disableclick;
+function disableclick(event)
+{
+	if(event.button==2)
+	{
+		return false;    
+	}
+}
+window.onload = function(e) {
 
-</head>
+	// soundPlayer();
+	document.getElementById('files').addEventListener('change', loadMap, false);
+	document.getElementById('saveFiles').addEventListener('change', loadSave, false);
+	document.getElementById('loadingText').style.visibility = "hidden";
+	var tmp =  document.getElementsByClassName("spinner");
+	for (i = 0; i < tmp.length; i++) {
+		tmp[i].style.visibility = "hidden" ;
+		tmp[i].style.display    = "none"   ;
+	}
+	tmp = 0;
 
+	console.log(game.state);
+};
+		</script>
 
-<body>
-	<div id="loadingText">Loading, please wait...</div>
-
-
-
-
-	<!-- <canvas id="myCanvas"></canvas> -->
-	<div class="spinner">
-		<div class="rect1"></div>
-		<div class="rect2"></div>
-		<div class="rect3"></div>
-		<div class="rect4"></div>
-		<div class="rect5"></div>
-		<div class="rect6"></div>
-		<div class="rect7"></div>
-		<div class="rect8"></div>
-		<div class="rect9"></div>
-	</div>
+	</head>
 
 
-	<div id="menu" class="menu">
-		<div class="title">Dys</div>
-		<button id="playButton"      onclick= "dynamicLoad ( './lib/ingame.js','js','notify' ) ;
-		" > Play</button>
-		<button id="multiplayButton" onclick= "displayOptions('menuMap')" > Level Editor</button>
-		<button id="optionsButton"   onclick= "displayOptions('menuOptions');" > Options</button>
-		<button id="helpButton"      onclick= "showHelp();" > Help</button>
-		<button id="aboutButton"     onclick= "displayError('Made by SyShock @ github.com/Syhock', 1);" > About</button>
-	</div>
+	<body>
+		<div id="loadingText">Loading, please wait...</div>
 
-
-
-	<div id="menuOptions" class="menu" style="display: none;">
-		<div class="title">//Options</div>
-		<button id="" onclick= "displayOptions('menuKeybinds');" > Set Keybinds</button>
-		<button id="" onclick= "displayOptions('menuKeybinds');" > Set Mousebinds</button>
-		<button id="" onclick= "displayOptions('menuDifficulty');" > Set Difficulty</button>
-		<button id="" onclick= "displayOptions('menuLoad');" > Load Savefile</button>
-		<button id="" onclick= "displayOptions('menuSave');" > Savefile</button>
-		<br></br>
-		<button id="" onclick= "displayOptions('menu');" > Back</button> 
-	</div>
-
-
-
-	<div id="menuKeybinds" class="menu" style="display: none;">
-		<div class="title">//Keybinds</div>
-		<button id="" onclick= "setKey('up')" > Up</button>
-		<button id="" onclick= "setKey('down')" > Down</button> 
-		<button id="" onclick= "setKey('left')" > Left</button> 
-		<button id="" onclick= "setKey('right')" > Right</button>
-		<button id="" onclick= "" > Use</button>
-		<button id="" onclick= "" > Fire</button>
-		<br></br>
-
-		<button id="" onclick= "displayOptions('menuOptions');" > Save & Back</button>
-		<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
-
-	</div>
-
-
-
-	<div id="menuMousebinds" class="menu" style="display: none;">
-		<div class="title">Keybinds</div>
-		<button id="" onclick= "" > Up</button>
-		<button id="" onclick= "" > Down</button> 
-		<button id="" onclick= "" > Left</button> 
-		<button id="" onclick= "" > Right</button>
-		<button id="" onclick= "" > Use</button>
-		<button id="" onclick= "" > Fire</button>
-		<br></br>
-
-		<button id="" onclick= "displayOptions('menuOptions');" > Save & Back</button>
-		<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
-
-	</div>
-
-
-
-	<div id="menuDifficulty" class="menu" style="display: none;">
-		<div class="title">//Difficulty</div>
-		<div class="styled-select">
-			<select name="Difficulty">
-				<option value="normal">Normal</option>
-				<option value="hard">Hard</option>
-				<option value="realistic">Realistic</option>
-				<option value="dystopia">Dys-topia</option>
-			</select>
+		<div class="spinner">
+			<div class="rect1"></div>
+			<div class="rect2"></div>
+			<div class="rect3"></div>
+			<div class="rect4"></div>
+			<div class="rect5"></div>
+			<div class="rect6"></div>
+			<div class="rect7"></div>
+			<div class="rect8"></div>
+			<div class="rect9"></div>
 		</div>
-		<br></br>
-		<button id="" onclick= "" > Save & Back</button> 
-		<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
-	</div>
 
 
-	<div id="menuMap" class="menu" style="display: none;">
-		<div class="title">//Level Editor</div>
-		<button id="" onclick= "" > Play Map</button>
-		<button id="" onclick= "dynamicLoad ( './lib/levelEditor.js','js','notify' );" > Edit Map</button> 
-		<button id="" onclick= "" > Load Map</button>
-		<br></br> 
-		<button id="" onclick= "displayOptions('menu');" > Back</button>
-	</div>
+		<div id="menu" class="menu">
+			<div class="title">Dys</div>
+			<button id="playButton"      onclick= "displayOptions('menuMapCampaign');"> Play</button>
+			<button id="multiplayButton" onclick= "displayOptions('menuMap')" > Level Editor</button>
+			<button id="optionsButton"   onclick= "displayOptions('menuOptions');" > Options</button>
+			<button id="helpButton"      onclick= "showHelp();" > Help</button>
+			<button id="aboutButton"     onclick= "displayError('Made by SyShock', 1);" > About</button>
+		</div>
 
 
 
-	<div id="menuHelp" style="display:none;">
-		>>Help screen.<br>
-		Defualt keybind are:<br>
-		"W" - Up <br>
-		"A" - Left <br>
-		"S" - Down <br>
-		"D" - Right <br>
-		"E" - Use <br>
-		"MouseButton1" - Fire <br>
-		"MouseButton2" - Secondary Fire <br>
-
-		Music Controls: <br>
-		"+"- increase volume <br>
-		"-" decrease volume <br>
-
-	</div>
-
-</body>
+		<div id="menuOptions" class="menu" style="display: none;">
+			<div class="title">//Options</div>
+			<button id="" onclick= "displayOptions('menuKeybinds');" > Set Keybinds</button>
+			<button id="" onclick= "displayOptions('menuDifficulty');" > Set Difficulty</button>
+			<button id="" onclick= "simulateLoadMap();" > Load Savefile</button>
+			<button id="" onclick='save()' > Savefile</button>
+			<br></br>
+			<button id="" onclick= "displayOptions('menu');" > Back</button> 
+		</div>
 
 
 
-</html
+		<div id="menuKeybinds" class="menu" style="display: none;">
+			<div class="title">//Keybinds</div>
+			<button id="" onclick= "setKey('up')" > Up</button>
+			<button id="" onclick= "setKey('down')" > Down</button> 
+			<button id="" onclick= "setKey('left')" > Left</button> 
+			<button id="" onclick= "setKey('right')" > Right</button>
+			<button id="" onclick= "" > Use</button>
+			<button id="" onclick= "" > Fire</button>
+			<br></br>
+
+			<button id="" onclick= "displayOptions('menuOptions');" > Save & Back</button>
+			<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
+
+		</div>
+
+
+
+		<div id="menuMousebinds" class="menu" style="display: none;">
+			<div class="title">Keybinds</div>
+			<button id="" onclick= "" > Up</button>
+			<button id="" onclick= "" > Down</button> 
+			<button id="" onclick= "" > Left</button> 
+			<button id="" onclick= "" > Right</button>
+			<button id="" onclick= "" > Use</button>
+			<button id="" onclick= "" > Fire</button>
+			<br></br>
+
+			<button id="" onclick= "displayOptions('menuOptions');" > Save & Back</button>
+			<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
+
+		</div>
+
+
+
+		<div id="menuDifficulty" class="menu" style="display: none;">
+			<div class="title">//Difficulty</div>
+			<div class="styled-select">
+				<select id="difficulty" name="Difficulty">
+					<option value="normal">Normal</option>
+					<option value="hard">Hard</option>
+					<option value="realistic">Realistic</option>
+					<option value="dystopia">Dys-topia</option>
+				</select>
+			</div>
+			<br></br>
+			<button id="" onclick= "setDifficulty(); displayOptions('menuOptions');" > Save & Back</button> 
+			<button id="" onclick= "displayOptions('menuOptions');" > Back</button>
+		</div>
+
+
+		<div id="menuMap" class="menu" style="display: none;">
+			<div class="title">//Level Editor</div>
+			<button id="" onclick= "playMap();" > Play Map</button>
+			<button id="" onclick= "levelEditor();" > Edit Map</button> 
+			<button id="" onclick= "simulateLoadSave()" > Load Map</button> 
+			<button id="" onclick= "levelEditor();" > New Map</button> 
+			<br></br> 
+			<button id="" onclick= "displayOptions('menu');" > Back</button>
+		</div>
+
+		<input type="file" id="files" class="upload" />
+		<input type="file" id="saveFiles" class="upload" />
+
+		<div id="menuMapCampaign" class="menu" style="display: none;">
+			<div class="title">//Level Select</div>
+			<button id="chapter1" onclick= "" > Chapter 1</button>
+			<button id="" onclick= "play();" > Demo</button> 
+			<br></br> 
+			<button id="" onclick= "displayOptions('menu');" > Back</button>
+		</div>
+
+
+
+		<div id="menuHelp" style="display:none;">
+			>>Help screen.<br>
+			Defualt keybind are:<br>
+			"W" - Up <br>
+			"A" - Left <br>
+			"S" - Release Grapple <br>
+			"D" - Right <br>
+			"E" - Use (not included yet) <br>
+			"MouseButton1" - Fire Grapple <br>
+			"MouseButton2" - Secondary Fire (not included yet) <br>
+
+			Music Controls: <br>
+			"+"- increase volume <br>
+			"-" decrease volume <br>
+
+			Level Editor:
+			It has three types of modes:
+			1 - Tiles mode
+			2 - Units mode
+			3 - Objects mode
+			4 - Player/Drone mode
+
+			Objects are also draggable.
+
+		</div>
+
+	</body>
+
+</html>
