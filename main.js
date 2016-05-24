@@ -237,7 +237,6 @@ function setDifficulty()
 function play(){
 	dynamicLoad ( './lib/misc/difficulty.js','js','notify');
 	dynamicLoad ( './lib/ingame.js','js','notify');
-;
 	try {
 		console.log(maps);
 		game.state.start('inGame');
@@ -315,6 +314,7 @@ function displayMainMenu() {
 var menuState = {
 	preload: function(){
 		game.load.image('background', 'assets/img/introducing-the-default-wallpapers-of-the-gnome-3-18-desktop-environment-485512-6.jpg');
+		if(!maps)
 		game.load.json('maps', 'assets/maps/collision_test.json');
 	},
 	create: function(){
@@ -323,7 +323,7 @@ var menuState = {
 	},
 };
 
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'phaser-example');
+var game = new Phaser.Game(1280, 800, Phaser.CANVAS, 'phaser-example');
 game.state.add("menu",menuState);
 game.state.start('menu');
 

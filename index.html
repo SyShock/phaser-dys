@@ -13,6 +13,8 @@
 		<script type="text/javascript" src="./lib/units/units.js" ></script>
 		<script type="text/javascript" src="./lib/player/player.js" ></script>
 		<script type="text/javascript" src="./lib/player/drone.js" ></script>
+		<script type="text/javascript" src="./lib/player/grapple.js" ></script>
+		<script type="text/javascript" src="./lib/ingame.js" ></script>
 		<script type="text/javascript" src="./lib/worldObjects/items.js" ></script>
 		<script type="text/javascript" src="./lib/input/input.js" ></script>
 		<script type="text/javascript" src="./lib/debug.js" ></script>
@@ -68,6 +70,8 @@ window.onload = function(e) {
 	tmp = 0;
 
 	console.log(game.state);
+	
+game.state.add('inGame',inGame);
 };
 		</script>
 
