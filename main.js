@@ -260,7 +260,6 @@ function playMap(){
 	else{
 		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
 		dynamicLoad('./lib/ingame.js','js');
-		displayOptions('');
 
 	}
 }
