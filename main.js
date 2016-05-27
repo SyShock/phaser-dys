@@ -239,6 +239,7 @@ function play(){
 	dynamicLoad ( './lib/ingame.js','js','notify');
 	try {
 		console.log(maps);
+		gameMenu();
 		game.state.start('inGame');
 	}
 	catch(e){
@@ -249,7 +250,7 @@ function play(){
 
 function playMap(){
 	try {	
-			game.state.start('inGame');
+		game.state.start('inGame');
 	}
 	catch(e){
 	}
@@ -285,11 +286,12 @@ function levelEditor(){
 
 function newMap(){
 
-		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-		dynamicLoad('./lib/levelEditor.js','js');
+	dynamicLoad ( './lib/misc/difficulty.js','js','notify');
+	dynamicLoad('./lib/levelEditor.js','js');
+
 	try{
-	game.load.json("maps", "./assets/maps/collision_test.json");
-	game.state.start('mapEditor');
+		game.load.json("maps", "./assets/maps/collision_test.json");
+		game.state.start('mapEditor');
 	}
 	catch(e){}
 
@@ -308,14 +310,11 @@ function displayMainMenu() {
 }
 
 
-
-
-
 var menuState = {
 	preload: function(){
 		game.load.image('background', 'assets/img/introducing-the-default-wallpapers-of-the-gnome-3-18-desktop-environment-485512-6.jpg');
 		if(!maps)
-		game.load.json('maps', 'assets/maps/collision_test.json');
+			game.load.json('maps', 'assets/maps/collision_test.json');
 	},
 	create: function(){
 		maps = game.cache.getJSON("maps", true);
@@ -323,7 +322,7 @@ var menuState = {
 	},
 };
 
-var game = new Phaser.Game(1280, 800, Phaser.CANVAS, 'phaser-example');
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example');
 game.state.add("menu",menuState);
 game.state.start('menu');
 
