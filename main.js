@@ -112,6 +112,7 @@ function gameMenu(){
 }
 
 function gameQuit(){
+	game.paused = false;
 	if(optionsAdded){
 		game.state.start('menu');
 		removeFromMenu("menu", "resetButton");
@@ -131,6 +132,7 @@ function mapMenu(){
 }
 
 function mapQuit() {
+		game.paused = false;
 	if(optionsAdded){
 		game.state.start('menu');
 		removeFromMenu("menu", "saveButton");
@@ -278,7 +280,6 @@ function levelEditor(){
 	else{
 		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
 		dynamicLoad('./lib/levelEditor.js','js');
-		displayOptions('');
 	}
 
 }
@@ -320,6 +321,9 @@ var menuState = {
 		game.add.sprite(0, 0, 'background');
 	},
 };
+
+
+var turned = false;
 
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example');
 game.state.add("menu",menuState);

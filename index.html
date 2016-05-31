@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="./lib/player/grapple.js" ></script>
 		<script type="text/javascript" src="./lib/worldObjects/items.js" ></script>
 		<script type="text/javascript" src="./lib/input/input.js" ></script>
+		<script type="text/javascript" src="./lib/input/editorInput.js" ></script>
 		<script type="text/javascript" src="./lib/debug.js" ></script>
 		<script src="http://connect.soundcloud.com/sdk.js"></script>
 		<script data-main="/lib/main" src="/lib/require.min.js"></script>
@@ -71,6 +72,7 @@ window.onload = function(e) {
 	console.log(game.state);
 dynamicLoad ( './lib/misc/difficulty.js','js','notify');
 	dynamicLoad ( './lib/ingame.js','js','notify');
+	dynamicLoad ( './lib/levelEditor.js','js','notify');
 };
 		</script>
 
