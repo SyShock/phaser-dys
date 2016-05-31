@@ -309,7 +309,7 @@ function displayMainMenu() {
 	}
 }
 
-
+var sprite;
 var menuState = {
 	preload: function(){
 		game.load.image('background', 'assets/img/introducing-the-default-wallpapers-of-the-gnome-3-18-desktop-environment-485512-6.jpg');
@@ -318,7 +318,7 @@ var menuState = {
 	},
 	create: function(){
 		maps = game.cache.getJSON("maps", true);
-		game.add.sprite(0, 0, 'background');
+		sprite = game.add.sprite(0, 0,'background');
 	},
 };
 
