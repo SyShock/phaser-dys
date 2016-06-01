@@ -1,82 +1,3 @@
-var currentMenu = "menu";
-function displayOptions(menuId){
-	var duration = 250;
-	var outDoc = document.getElementById(currentMenu);
-	var inDoc = document.getElementById(menuId);
-
-	var opacity;
-
-	if(outDoc){
-		fadeOut(outDoc);
-	}
-	else{
-		fadeIn(inDoc);
-	}
-
-	currentMenu = menuId;
-
-
-
-	function fadeOut(doc)
-	{
-		opacity = 1;
-		var fadeOutInterval = setInterval(function(){
-			outDoc.style.opacity = opacity;
-			outDoc.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-					opacity -= 0.2;
-					if (opacity <= 0){
-						outDoc.style.display = "none";
-						if(inDoc){
-							fadeIn(inDoc);
-						}
-						clearInterval(fadeOutInterval);
-
-					}
-					},10);
-			}
-
-
-			function fadeIn(doc){
-				opacity = 0;
-				doc.style.display = "block";
-				doc.style.opacity = 0;
-				var fadeInInterval = setInterval(function(){
-					doc.style.opacity = opacity;
-					doc.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-							opacity += 0.2;
-							if (opacity >= 1){
-								clearInterval(fadeInInterval);
-							}
-							},10);
-					}
-					}
-
-
-
-
-
-					function showHelp() {
-						displayOptions("menuHelp");
-
-						var canvas = document.getElementById("menuHelp");
-						canvas.onclick = function(){
-							displayOptions("menu");
-							canvas.onclick = null;
-						};
-					}
-
-// these are the default settings
-// leading a savefile overwrites this object
-var settings = {
-	"keys" : {up: 87,down: 83,left: 65, right: 68,},
-	"volume": 20,
-	"levelProgress": 0,
-	"died": 0,
-	"hightScore": 0,
-	difficulty: "normal",
-
-};
-
 
 function addToMenu(menuId, msg ,onPress, id){
 	var menu = document.getElementById(menuId);
@@ -98,7 +19,6 @@ function removeFromMenu(menuId, id){
 	menu.removeChild(target);
 
 }
-
 
 
 
@@ -147,17 +67,24 @@ function setKey(action){
 
 	displayError("Key set for " + action,1);
 	window.addEventListener('keydown',set,false);
-
+	
 
 	function set(e) {
 		displayError("Keycode is: " + e.keyCode,1);
 		settings.keys[action] = e.keyCode;
 		window.removeEventListener('keydown',set,false);
+
+		localStorage.setItem('settings', JSON.stringify(settings));
 	}	
 }
 
+
+
 var reader;
 var maps;
+
+
+
 // load map json
 function loadMap(evt){
 	reader = new FileReader();
@@ -178,6 +105,8 @@ function loadMap(evt){
 	};
 
 }
+
+
 //load savefile, which is also a json
 function loadSave(evt){
 	reader = new FileReader();
@@ -197,6 +126,9 @@ function loadSave(evt){
 		settings = JSON.parse(data);
 	};	
 }
+
+
+
 //saves current settings
 function save() {
 	var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
@@ -206,6 +138,7 @@ function save() {
 	a.innerHTML = 'download JSON';
 	a.click();
 }
+
 
 function setVolumeUp() 
 {
@@ -220,10 +153,10 @@ function setVolumeDown()
 	soundCloud.setVolume(settings.volume);
 }
 
+
 function setDifficulty()
 {
 	tmp  = document.getElementById('difficulty').value;
-	console.log(tmp);
 	if(tmp === 'normal')
 		difficulty=normal;
 	if(tmp === 'hard')
@@ -231,14 +164,14 @@ function setDifficulty()
 	if(tmp === 'realistic')
 		difficulty = realistic;
 	if(tmp === 'dystopia')
-		difficulty = dystopian;
+		difficulty = dystopia;
 
+	settings.difficulty = tmp;
+	localStorage.setItem('settings', JSON.stringify(settings));
 	console.log(difficulty);
 }
 
 function play(){
-	dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-	dynamicLoad ( './lib/ingame.js','js','notify');
 	try {
 		console.log(maps);
 		gameMenu();
@@ -259,11 +192,6 @@ function playMap(){
 	if (!maps){
 		displayError("Please select a map...");
 	}
-	else{
-		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-		dynamicLoad('./lib/ingame.js','js');
-
-	}
 }
 
 
@@ -277,18 +205,10 @@ function levelEditor(){
 	{
 		displayError("Please select a map...");
 	}
-	else{
-		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-		dynamicLoad('./lib/levelEditor.js','js');
-	}
 
 }
 
 function newMap(){
-
-	dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-	dynamicLoad('./lib/levelEditor.js','js');
-
 	try{
 		game.load.json("maps", "./assets/maps/collision_test.json");
 		game.state.start('mapEditor');
@@ -321,6 +241,12 @@ var menuState = {
 		sprite = game.add.sprite(0, 0,'background');
 	},
 };
+
+
+
+
+
+
 
 
 var turned = false;

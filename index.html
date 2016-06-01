@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="./lib/player/drone.js" ></script>
 		<script type="text/javascript" src="./lib/player/grapple.js" ></script>
 		<script type="text/javascript" src="./lib/worldObjects/items.js" ></script>
+		<script type="text/javascript" src="./lib/menu/transitions.js" ></script>
 		<script type="text/javascript" src="./lib/input/input.js" ></script>
 		<script type="text/javascript" src="./lib/input/editorInput.js" ></script>
 		<script type="text/javascript" src="./lib/debug.js" ></script>
@@ -23,57 +24,69 @@
 
 
 		<script type="text/javascript">
-var soundCloud; 
-var trackURLs = {
+
+
+	var soundCloud; 
+	function soundPlayer() {
+
+		SC.initialize({
+			client_id: "d4ab52d80ed2e7790c3a243495b30093",
+		});
 	
-};
-function soundPlayer() {
+		SC.stream('/tracks/227142158', function (sound) {
+			sound.setVolume(settings.volume);
+			//sound.play();
+			soundCloud = sound;
+		});
+	}
+	function playTrack(trackID){
+		if(!soundCloud.playState)
+		SC.stream(trackID, function (sound) {
+			sound.setVolume(settings.volume);
+			sound.play();
+			soundCloud = sound;
+		});
+		//"/tracks/227142158"
+	}
 
-	SC.initialize({
-		client_id: "d4ab52d80ed2e7790c3a243495b30093",
-	});
 
-	SC.stream("/tracks/227142158", function (sound) {
-		sound.setVolume(settings.volume);
-		sound.play();
-		soundCloud = sound;
+	function simulateLoadSave(){
+		var tmp = document.getElementById('files');
+		tmp.click()
+	}
+	function simulateLoadMap(){
+		var tmp = document.getElementById('saveFiles');
+		tmp.click()
+	}
 
-	});
-}
-function simulateLoadSave(){
-	var tmp = document.getElementById('files');
-	tmp.click()
-}
-function simulateLoadMap(){
-	var tmp = document.getElementById('saveFiles');
-	tmp.click()
-}
-document.onmousedown=disableclick;
-function disableclick(event)
-{
-	if(event.button==2)
+	document.onmousedown=disableclick;
+	function disableclick(event)
 	{
-		return false;    
-	}
-}
-window.onload = function(e) {
+		if(event.button==2)
+			{
+				return false;    
+			}
+		}
 
-	// soundPlayer();
-	document.getElementById('files').addEventListener('change', loadMap, false);
-	document.getElementById('saveFiles').addEventListener('change', loadSave, false);
-	document.getElementById('loadingText').style.visibility = "hidden";
-	var tmp =  document.getElementsByClassName("spinner");
-	for (i = 0; i < tmp.length; i++) {
-		tmp[i].style.visibility = "hidden" ;
-		tmp[i].style.display    = "none"   ;
-	}
-	tmp = 0;
+	window.onload = function(e) {
 
-	console.log(game.state);
-dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-	dynamicLoad ( './lib/ingame.js','js','notify');
-	dynamicLoad ( './lib/levelEditor.js','js','notify');
-};
+			//soundPlayer();
+
+			document.getElementById('files').addEventListener('change', loadMap, false);
+			document.getElementById('saveFiles').addEventListener('change', loadSave, false);
+			document.getElementById('loadingText').style.visibility = "block";
+			var tmp =  document.getElementsByClassName("spinner");
+			for (i = 0; i < tmp.length; i++) {
+				tmp[i].style.visibility = "hidden" ;
+				tmp[i].style.display    = "none"   ;
+			}
+			tmp = 0;
+
+			dynamicLoad ( './lib/misc/settings.js','js','notify');
+			dynamicLoad ( './lib/misc/difficulty.js','js','notify');
+			dynamicLoad ( './lib/ingame.js','js','notify');
+			dynamicLoad ( './lib/levelEditor.js','js','notify');
+		};
 		</script>
 
 	</head>
@@ -199,8 +212,12 @@ dynamicLoad ( './lib/misc/difficulty.js','js','notify');
 			"S" - Release Grapple <br>
 			"D" - Right <br>
 			"E" - Use (not included yet) <br>
+
 			"MouseButton1" - Fire Grapple <br>
 			"MouseButton2" - Secondary Fire (not included yet) <br>
+			
+			The grapple is released with any action key. (including "Fire Grapple")
+
 
 			Music Controls: <br>
 			"+"- increase volume <br>
@@ -209,11 +226,18 @@ dynamicLoad ( './lib/misc/difficulty.js','js','notify');
 			Level Editor:
 			It has three types of modes:
 			1 - Tiles mode
+				
 			2 - Units mode
-			3 - Objects mode
-			4 - Player/Drone mode
 
-			Objects are also draggable.
+			3 - Objects mode
+				
+			4 - Player/Drone mode
+				q - Player
+				w - 
+				e - Level clear zone
+				r - Checkpoint zone
+
+			Objects are also draggable. And can be deleted with right-click.
 
 		</div>
 
