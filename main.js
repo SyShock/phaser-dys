@@ -41,6 +41,7 @@ function gameQuit(){
 	}
 }
 
+
 function mapMenu(){
 
 	if(!optionsAdded){
@@ -241,7 +242,6 @@ var menuState = {
 		sprite = game.add.sprite(0, 0,'background');
 	},
 };
-
 
 
 
