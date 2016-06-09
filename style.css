@@ -310,3 +310,9 @@ button:hover {
 #chapter1 {
 	color: silver;
 }
+
+#gameCanvas{
+	top:0;
+	left:0;
+	position: fixed;
+}

@@ -251,7 +251,23 @@ var menuState = {
 
 var turned = false;
 
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example');
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, "gameCanvas");
 game.state.add("menu",menuState);
 game.state.start('menu');
 
+
+
+var addEvent = function(object, type, callback) {
+    if (object === null || typeof(object) == 'undefined') return;
+    if (object.addEventListener) {
+        object.addEventListener(type, callback, false);
+    } else if (object.attachEvent) {
+        object.attachEvent("on" + type, callback);
+    } else {
+        object["on"+type] = callback;
+    }
+};
+
+addEvent(window, "resize", function(){
+	game.scale.setGameSize(window.innerWidth,window.innerHeight);
+});

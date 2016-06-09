@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script type="text/javascript" src="./lib/dynamicLoad.js"></script>	
-		<script type="text/javascript" src="./lib/phaser.js"></script>		
+		<script type="text/javascript" src="./lib/phaser.min.js"></script>		
 		<script type="text/javascript" src="main.js" id="main.js"></script>	
 		<script type="text/javascript" src="./lib/units/units.js" ></script>
 		<script type="text/javascript" src="./lib/player/player.js" ></script>
@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="./lib/input/editorInput.js" ></script>
 		<script type="text/javascript" src="./lib/debug.js" ></script>
 		<script src="http://connect.soundcloud.com/sdk.js"></script>
-		<script data-main="/lib/main" src="/lib/require.min.js"></script>
+		<script type="text/javascript" src="./lib/input/touchInput.js"></script>
 
 
 		<script type="text/javascript">
@@ -58,7 +58,6 @@
 		var tmp = document.getElementById('saveFiles');
 		tmp.click()
 	}
-
 	document.onmousedown=disableclick;
 	function disableclick(event)
 	{
@@ -80,6 +79,8 @@
 				tmp[i].style.visibility = "hidden" ;
 				tmp[i].style.display    = "none"   ;
 			}
+
+	document.getElementById('loadingText').style.display = 'none';
 			tmp = 0;
 
 			dynamicLoad ( './lib/misc/settings.js','js','notify');
@@ -94,6 +95,7 @@
 
 	<body>
 		<div id="loadingText">Loading, please wait...</div>
+		<div id="gameCanvas"></div>
 
 		<div class="spinner">
 			<div class="rect1"></div>
