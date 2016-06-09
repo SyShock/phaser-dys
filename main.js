@@ -240,6 +240,7 @@ var menuState = {
 	create: function(){
 		maps = game.cache.getJSON("maps", true);
 		sprite = game.add.sprite(0, 0,'background');
+		game.scale.forceOrientation(true,false);
 	},
 };
 
@@ -254,7 +255,9 @@ var turned = false;
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, "gameCanvas");
 game.state.add("menu",menuState);
 game.state.start('menu');
-
+intel.xdk.device.setRotateOrientation("landscape");
+intel.xdk.device.setAutoRotate(false);
+screen.orientation.lock('landscape');
 
 
 var addEvent = function(object, type, callback) {
