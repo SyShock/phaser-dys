@@ -5,7 +5,7 @@
 
 		<!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> -->
 
-<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+		<meta content='' name='' />
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script type="text/javascript" src="./lib/dynamicLoad.js"></script>	
 		<script type="text/javascript" src="./lib/phaser.min.js"></script>		
@@ -20,74 +20,85 @@
 		<script type="text/javascript" src="./lib/input/editorInput.js" ></script>
 		<script type="text/javascript" src="./lib/debug.js" ></script>
 		<script type="text/javascript" src="./lib/soundCloud.js"></script>
+		<script src="https://connect.soundcloud.com/sdk.js"></script>
 		<script type="text/javascript" src="./lib/input/touchInput.js"></script>
 
 
 		<script type="text/javascript">
 
 
-	var soundCloud; 
-	function soundPlayer() {
+var soundCloud; 
+function soundPlayer() {
 
-		SC.initialize({
-			client_id: "d4ab52d80ed2e7790c3a243495b30093",
-		});
-	
-		SC.stream('/tracks/227142158', function (sound) {
-			sound.setVolume(settings.volume);
-			//sound.play();
-			soundCloud = sound;
-		});
-	}
-	function playTrack(trackID){
-		if(!soundCloud.playState)
+	SC.initialize({
+		client_id: "d4ab52d80ed2e7790c3a243495b30093",
+	});
+
+	SC.stream('/tracks/227142158', function (sound) {
+		sound.setVolume(settings.volume);
+		//sound.play();
+		soundCloud = sound;
+	});
+}
+function playTrack(trackID){
+	if(!soundCloud.playState)
 		SC.stream(trackID, function (sound) {
 			sound.setVolume(settings.volume);
 			sound.play();
 			soundCloud = sound;
 		});
-		//"/tracks/227142158"
-	}
+	//"/tracks/227142158"
+}
 
 
-	function simulateLoadSave(){
-		var tmp = document.getElementById('files');
-		tmp.click()
-	}
-	function simulateLoadMap(){
-		var tmp = document.getElementById('saveFiles');
-		tmp.click()
-	}
-	document.onmousedown=disableclick;
-	function disableclick(event)
+function simulateLoadSave(){
+	var tmp = document.getElementById('files');
+	tmp.click()
+}
+function simulateLoadMap(){
+	var tmp = document.getElementById('saveFiles');
+	tmp.click()
+}
+document.onmousedown=disableclick;
+function disableclick(event)
+{
+	if(event.button==2)
 	{
-		if(event.button==2)
-			{
-				return false;    
-			}
-		}
+		return false;    
+	}
+}
 
-	window.onload = function(e) {
+window.onload = function(e) {
 
-			soundPlayer();
+	soundPlayer();
 
-			document.getElementById('files').addEventListener('change', loadMap, false);
-			document.getElementById('saveFiles').addEventListener('change', loadSave, false);
-			document.getElementById('loadingText').style.visibility = "block";
-			var tmp =  document.getElementsByClassName("spinner");
-			for (i = 0; i < tmp.length; i++) {
-				tmp[i].style.visibility = "hidden" ;
-				tmp[i].style.display    = "none"   ;
-			}
+	document.getElementById('files').addEventListener('change', loadMap, false);
+	document.getElementById('saveFiles').addEventListener('change', loadSave, false);
+	document.getElementById('loadingText').style.visibility = "block";
+	var tmp =  document.getElementsByClassName("spinner");
+	for (i = 0; i < tmp.length; i++) {
+		tmp[i].style.visibility = "hidden" ;
+		tmp[i].style.display    = "none"   ;
+	}
 
 	document.getElementById('loadingText').style.display = 'none';
-			tmp = 0;
+	tmp = 0;
 
-			dynamicLoad ( './lib/misc/settings.js','js','notify');
-			dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-			dynamicLoad ( './lib/ingame.js','js','notify');
-			dynamicLoad ( './lib/levelEditor.js','js','notify');
-		};
+	dynamicLoad ( './lib/misc/settings.js','js','notify');
+	dynamicLoad ( './lib/misc/difficulty.js','js','notify');
+	dynamicLoad ( './lib/ingame.js','js','notify');
+	dynamicLoad ( './lib/levelEditor.js','js','notify');
+	var meta = document.createElement('meta');
+
+	window.addEventListener("resize", function(){
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;}, true);
+	
+	meta.name = "viewport";
+	meta.content = "width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=0";
+	document.getElementsByTagName('head')[0].appendChild(meta);
+
+};
 		</script>
 
 	</head>
@@ -217,7 +228,7 @@
 
 			"MouseButton1" - Fire Grapple <br>
 			"MouseButton2" - Secondary Fire (not included yet) <br>
-			
+
 			The grapple is released with any action key. (including "Fire Grapple")
 
 
@@ -228,16 +239,16 @@
 			Level Editor:
 			It has three types of modes:
 			1 - Tiles mode
-				
+
 			2 - Units mode
 
 			3 - Objects mode
-				
+
 			4 - Player/Drone mode
-				q - Player
-				w - 
-				e - Level clear zone
-				r - Checkpoint zone
+			q - Player
+			w - 
+			e - Level clear zone
+			r - Checkpoint zone
 
 			Objects are also draggable. And can be deleted with right-click.
 

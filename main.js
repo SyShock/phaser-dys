@@ -236,6 +236,10 @@ var menuState = {
 		game.load.image('background', 'assets/img/introducing-the-default-wallpapers-of-the-gnome-3-18-desktop-environment-485512-6.jpg');
 		if(!maps)
 			game.load.json('maps', 'assets/maps/collision_test.json');
+		
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+
 	},
 	create: function(){
 		maps = game.cache.getJSON("maps", true);
@@ -252,7 +256,7 @@ var menuState = {
 
 var turned = false;
 
-var game = new Phaser.Game(1280, 720, Phaser.CANVAS, "gameCanvas");
+var game = new Phaser.Game(1280, 620, Phaser.CANVAS, "gameCanvas");
 game.state.add("menu",menuState);
 game.state.start('menu');
 
@@ -266,4 +270,5 @@ var addEvent = function(object, type, callback) {
         object["on"+type] = callback;
     }
 };
+
 
