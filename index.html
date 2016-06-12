@@ -5,7 +5,7 @@
 
 		<!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> -->
 
-
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script type="text/javascript" src="./lib/dynamicLoad.js"></script>	
 		<script type="text/javascript" src="./lib/phaser.min.js"></script>		
@@ -19,7 +19,7 @@
 		<script type="text/javascript" src="./lib/input/input.js" ></script>
 		<script type="text/javascript" src="./lib/input/editorInput.js" ></script>
 		<script type="text/javascript" src="./lib/debug.js" ></script>
-		<script src="http://connect.soundcloud.com/sdk.js"></script>
+		<script type="text/javascript" src="./lib/soundCloud.js"></script>
 		<script type="text/javascript" src="./lib/input/touchInput.js"></script>
 
 
@@ -69,7 +69,7 @@
 
 	window.onload = function(e) {
 
-			//soundPlayer();
+			soundPlayer();
 
 			document.getElementById('files').addEventListener('change', loadMap, false);
 			document.getElementById('saveFiles').addEventListener('change', loadSave, false);
