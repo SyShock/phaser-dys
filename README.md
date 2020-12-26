@@ -1,5 +1,5 @@
 # phaser-dys
-A HTML5 game in early stages of developement
-made with the phaser engine.
+This is an old project from 2015, made with phaser using es5
 
-Contains assets borrowed from examples.phaser.io
+## Demo: 
+https://limitless-coast-30078.herokuapp.com/

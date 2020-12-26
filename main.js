@@ -1,82 +1,3 @@
-var currentMenu = "menu";
-function displayOptions(menuId){
-	var duration = 250;
-	var outDoc = document.getElementById(currentMenu);
-	var inDoc = document.getElementById(menuId);
-
-	var opacity;
-
-	if(outDoc){
-		fadeOut(outDoc);
-	}
-
-
-	else{
-		fadeIn(inDoc);
-	}
-
-	currentMenu = menuId;
-
-
-
-	function fadeOut(doc)
-	{
-		opacity = 1;
-		var fadeOutInterval = setInterval(function(){
-			outDoc.style.opacity = opacity;
-			outDoc.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-					opacity -= 0.2;
-					if (opacity <= 0){
-						outDoc.style.display = "none";
-						if(inDoc){
-							fadeIn(inDoc);
-						}
-						clearInterval(fadeOutInterval);
-
-					}
-			},10);
-	}
-
-
-	function fadeIn(doc){
-			opacity = 0;
-			doc.style.display = "block";
-			doc.style.opacity = 0;
-			var fadeInInterval = setInterval(function(){
-			doc.style.opacity = opacity;
-			doc.style.filter = 'alpha(opacity=' + opacity * 100 + ")";
-			opacity += 0.2;
-			if (opacity >= 1){
-				clearInterval(fadeInInterval);
-			}
-			},10);
-			}
-			}
-
-
-
-
-
-function showHelp() {
-						displayOptions("menuHelp");
-
-						var canvas = document.getElementById("menuHelp");
-						canvas.onclick = function(){
-							displayOptions("menu");
-							canvas.onclick = null;
-						};
-}
-
-
-var settings = {
-	"keys" : {up: 87,down: 83,left: 65, right: 68,},
-	"volume": 20,
-	"levelProgress": 0,
-	"died": 0,
-	difficulty: "normal",
-
-};
-
 
 function addToMenu(menuId, msg ,onPress, id){
 	var menu = document.getElementById(menuId);
@@ -101,7 +22,6 @@ function removeFromMenu(menuId, id){
 
 
 
-
 var optionsAdded = false;
 function gameMenu(){
 	if(!optionsAdded){
@@ -112,6 +32,7 @@ function gameMenu(){
 }
 
 function gameQuit(){
+	game.paused = false;
 	if(optionsAdded){
 		game.state.start('menu');
 		removeFromMenu("menu", "resetButton");
@@ -119,6 +40,7 @@ function gameQuit(){
 		optionsAdded = false;
 	}
 }
+
 
 function mapMenu(){
 
@@ -131,6 +53,7 @@ function mapMenu(){
 }
 
 function mapQuit() {
+		game.paused = false;
 	if(optionsAdded){
 		game.state.start('menu');
 		removeFromMenu("menu", "saveButton");
@@ -145,17 +68,27 @@ function setKey(action){
 
 	displayError("Key set for " + action,1);
 	window.addEventListener('keydown',set,false);
-
+	
 
 	function set(e) {
 		displayError("Keycode is: " + e.keyCode,1);
 		settings.keys[action] = e.keyCode;
 		window.removeEventListener('keydown',set,false);
+
+		localStorage.setItem('settings', JSON.stringify(settings));
 	}	
 }
 
+
+function showHelp() {
+						displayOptions("menuHelp");
+
 var reader;
 var maps;
+
+
+
+// load map json
 function loadMap(evt){
 	reader = new FileReader();
 	console.log(evt);
@@ -176,6 +109,8 @@ function loadMap(evt){
 
 }
 
+
+//load savefile, which is also a json
 function loadSave(evt){
 	reader = new FileReader();
 	console.log(evt);
@@ -195,6 +130,13 @@ function loadSave(evt){
 	};	
 }
 
+
+	newSpawn.appendChild(text);  
+	newSpawn.setAttribute("onClick", onPress);
+	newSpawn.setAttribute("id", id);
+	menu.appendChild(newSpawn);
+
+//saves current settings
 function save() {
 	var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
 	var a = document.createElement('a');
@@ -203,6 +145,7 @@ function save() {
 	a.innerHTML = 'download JSON';
 	a.click();
 }
+
 
 function setVolumeUp() 
 {
@@ -217,10 +160,10 @@ function setVolumeDown()
 	soundCloud.setVolume(settings.volume);
 }
 
+
 function setDifficulty()
 {
 	tmp  = document.getElementById('difficulty').value;
-	console.log(tmp);
 	if(tmp === 'normal')
 		difficulty=normal;
 	if(tmp === 'hard')
@@ -228,80 +171,124 @@ function setDifficulty()
 	if(tmp === 'realistic')
 		difficulty = realistic;
 	if(tmp === 'dystopia')
-		difficulty = dystopian;
+		difficulty = dystopia;
 
+	settings.difficulty = tmp;
+	localStorage.setItem('settings', JSON.stringify(settings));
 	console.log(difficulty);
 }
 
-function play()
-{
-	dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-	dynamicLoad ( './lib/ingame.js','js','notify');
-
-	try 
-	{
+function play(){
+	try {
+		console.log(maps);
+		gameMenu();
 		game.state.start('inGame');
 	}
-	catch(e)
-	{
+	catch(e){
 		console.log(e);
 	}
 }
 
 
-function playMap()	
-{
-	if (!maps)
-	{
-		displayError("Please select a map...");
+function playMap(){
+	try {	
+		game.state.start('inGame');
 	}
-	else
-	{
-
-		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-		dynamicLoad('./lib/ingame.js','js');
-
-		try 
-		{
-			game.state.start('inGame');
-		}
-		catch(e)
-		{
-			console.log(e);
-		}
-
-
+	catch(e){
+	}
+	if (!maps){
+		displayError("Please select a map...");
 	}
 }
 
+function mapQuit() {
+	if(optionsAdded){
+		game.state.start('menu');
+		removeFromMenu("menu", "saveButton");
+		removeFromMenu("menu", "quitButton");
+		removeFromMenu("menu", "sizeButton");
+		optionsAdded = false;
 
-function mapEditor(){
+function levelEditor(){
+	try{
+		game.state.start('mapEditor');
+	}
+	catch(e){}
+
 	if (!maps)
 	{
 		displayError("Please select a map...");
+	}
+
+}
+
+function newMap(){
+	try{
+		game.load.json("maps", "./assets/maps/collision_test.json");
+		game.state.start('mapEditor');
+	}
+	catch(e){}
+
+function save() {
+	var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
+	var a = document.createElement('a');
+	a.href = 'data:' + data;
+	a.download = 'savefile.json';
+	a.innerHTML = 'download JSON';
+	a.click();
+}
+
+var menuShown = false;
+function displayMainMenu() {
+	if (!menuShown){
+		displayOptions("menu");
+		menuShown = true;
 	}
 	else{
-		dynamicLoad ( './lib/misc/difficulty.js','js','notify');
-		dynamicLoad('./lib/levelEditor.js','js');
+		displayOptions("");
+		menuShown = false;
 	}
 }
 
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'phaser-example');
-
-
+var sprite;
 var menuState = {
-	preload: function()
-	{
+	preload: function(){
 		game.load.image('background', 'assets/img/introducing-the-default-wallpapers-of-the-gnome-3-18-desktop-environment-485512-6.jpg');
+		if(!maps)
+			game.load.json('maps', 'assets/maps/collision_test.json');
+		
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+
 	},
-	create: function()
-	{
-		game.add.sprite(0, 0, 'background');
+	create: function(){
+		maps = game.cache.getJSON("maps", true);
+		sprite = game.add.sprite(0, 0,'background');
+		game.scale.forceOrientation(true,false);
 	},
 };
 
 
+
+
+
+
+
+var turned = false;
+
+var game = new Phaser.Game(1280, 620, Phaser.CANVAS, "gameCanvas");
 game.state.add("menu",menuState);
 game.state.start('menu');
+
+var addEvent = function(object, type, callback) {
+    if (object === null || typeof(object) == 'undefined') return;
+    if (object.addEventListener) {
+        object.addEventListener(type, callback, false);
+    } else if (object.attachEvent) {
+        object.attachEvent("on" + type, callback);
+    } else {
+        object["on"+type] = callback;
+    }
+};
 
 
